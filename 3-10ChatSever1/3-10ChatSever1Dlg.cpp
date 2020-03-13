@@ -170,5 +170,6 @@ void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 	//MessageBox(_T("你好"));
 	TRACE("####OnBnClickedConnectionButton2");
 	MessageBox(_T("你好我好大家好"));
-	
+	TRACE("####4444000OnBnClickedConnectionButton2");
+	TRACE("####500OnBnClickedConnectionButton2");
 }
