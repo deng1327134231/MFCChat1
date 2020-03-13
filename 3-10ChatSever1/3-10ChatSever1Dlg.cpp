@@ -7,6 +7,8 @@
 #include "3-10ChatSever1.h"
 #include "3-10ChatSever1Dlg.h"
 #include "afxdialogex.h"
+#include <atlbase.h>
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -162,13 +164,25 @@ void CMy310ChatSever1Dlg::OnBnClickedCalcButton5()
 	// TODO: 在此添加控件通知处理程序代码
 }
 
-
+#include <string>
+using namespace std;
 void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	//MessageBoxW(L"你好");
 	//MessageBox(_T("你好"));
-	TRACE("####OnBnClickedConnectionButton2");
-	MessageBox(_T("你好我好大家好"));
-	TRACE("####4444000OnBnClickedConnectionButton2");
+	//TRACE("####OnBnClickedConnectionButton2");
+	//MessageBox(_T("你好我好大家好"));
+	TRACE("####ClickedConnectionButton2");
+	CString strPoint;
+	GetDlgItem(IDC_POINT_EDIT3)->GetWindowTextW(strPoint);
+	
+	USES_CONVERSION;
+	LPCSTR zePoint = (LPCSTR)T2A(strPoint);
+	
+	TRACE("strPoint=%s", zePoint);
+
+	
+	
+	
 }

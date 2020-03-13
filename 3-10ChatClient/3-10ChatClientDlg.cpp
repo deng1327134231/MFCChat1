@@ -7,6 +7,8 @@
 #include "3-10ChatClient.h"
 #include "3-10ChatClientDlg.h"
 #include "afxdialogex.h"
+#include <atlbase.h>
+#include <windows.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,6 +33,7 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -43,6 +46,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	
 END_MESSAGE_MAP()
 
 
@@ -67,6 +71,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	
 	ON_BN_CLICKED(IDC_SEND_MSG_BUTTON1, &CMy310ChatClientDlg::OnBnClickedSendMsgButton1)
+	ON_BN_CLICKED(IDC_CONNECTION_BUTTON3, &CMy310ChatClientDlg::OnBnClickedConnectionButton3)
 END_MESSAGE_MAP()
 
 
@@ -164,3 +169,21 @@ void CMy310ChatClientDlg::OnBnClickedSendMsgButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 }
+
+
+void CMy310ChatClientDlg::OnBnClickedConnectionButton3()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	TRACE("####OnBnClickedConnectionButton3");
+	CString strPoint, strIp;
+	GetDlgItem(IDC_POINT_EDIT2)->GetWindowTextW(strPoint);
+	GetDlgItem(IDC_IPADDR)->GetWindowTextW(strIp);
+	USES_CONVERSION;
+	LPCSTR zePoint = (LPCSTR)T2A(strPoint);
+	LPCSTR zeIp = (LPCSTR)T2A(strIp);
+	TRACE("strPoint=%s,strIp=%s", zePoint, zeIp);
+
+
+}
+
+
