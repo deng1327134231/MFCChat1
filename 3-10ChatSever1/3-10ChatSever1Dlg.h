@@ -3,6 +3,8 @@
 //
 
 #pragma once
+#include "ServerSocket.h"
+#include "ChatSocket.h"
 
 
 // CMy310ChatSever1Dlg 对话框
@@ -34,4 +36,11 @@ protected:
 public:
 	afx_msg void OnBnClickedCalcButton5();
 	afx_msg void OnBnClickedConnectionButton2();
+	ServerSocket* m_serverSocket;
+	CTime m_time;
+	ChatSocket* m_chatSocket;
+
+
+	CListBox m_msg_list;
+	
 };

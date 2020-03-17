@@ -61,6 +61,7 @@ CMy310ChatSever1Dlg::CMy310ChatSever1Dlg(CWnd* pParent /*=nullptr*/)
 void CMy310ChatSever1Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_MSG_LIST1, m_msg_list);
 }
 
 BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
@@ -69,6 +70,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_CALC_BUTTON5, &CMy310ChatSever1Dlg::OnBnClickedCalcButton5)
 	ON_BN_CLICKED(IDC_CONNECTION_BUTTON2, &CMy310ChatSever1Dlg::OnBnClickedConnectionButton2)
+	
 END_MESSAGE_MAP()
 
 
@@ -104,6 +106,7 @@ BOOL CMy310ChatSever1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	GetDlgItem(IDC_POINT_EDIT3)->SetWindowText(_T("6000"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -164,16 +167,13 @@ void CMy310ChatSever1Dlg::OnBnClickedCalcButton5()
 	// TODO: 在此添加控件通知处理程序代码
 }
 
-#include <string>
-using namespace std;
+
 void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 {
 	// TODO: 在此添加控件通知处理程序代码
-	//MessageBoxW(L"你好");
-	//MessageBox(_T("你好"));
-	//TRACE("####OnBnClickedConnectionButton2");
-	//MessageBox(_T("你好我好大家好"));
+	
 	TRACE("####ClickedConnectionButton2");
+	//获取端口
 	CString strPoint;
 	GetDlgItem(IDC_POINT_EDIT3)->GetWindowTextW(strPoint);
 	
@@ -181,8 +181,44 @@ void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 	LPCSTR zePoint = (LPCSTR)T2A(strPoint);
 	
 	TRACE("strPoint=%s", zePoint);
+	int iPoint = _ttoi(strPoint);
+	//创建对象
+	m_serverSocket = new ServerSocket;
 
 	
+	//创建socket
+	if (!m_serverSocket->Create(iPoint))
+	{
+		TRACE("####m_serverSocket->Create errorCode  %d", GetLastError());
+		return;
+	}
+	else {
+		TRACE("####m_serverSocket->Create Success");
+		
+	}
+	//监听socket
 	
+	if (!m_serverSocket->Listen())
+	{
+		TRACE("####m_serverSocket->Listen errorCode  %d", GetLastError());
+		return;
+	}
+	else {
+		TRACE("####m_serverSocket->Listen Success");
+		
+	}
+	
+	
+
+	CString str;
+	
+	m_time = CTime::GetCurrentTime();
+	str = m_time.Format("%X");
+	str += _T("服务启动成功");
+	m_msg_list.AddString(str);
+
+	m_msg_list.UpdateData(false);
 	
 }
+
+

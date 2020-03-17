@@ -3,7 +3,7 @@
 //
 
 #pragma once
-
+#include "ClientSocket.h"
 
 // CMy310ChatClientDlg 对话框
 class CMy310ChatClientDlg : public CDialogEx
@@ -37,4 +37,9 @@ public:
 	//afx_msg void OnBnClickedButton3();
 	afx_msg void OnBnClickedSendMsgButton1();
 	afx_msg void OnBnClickedConnectionButton3();
+public:
+	ClientSocket* m_clientSocket;
+	CListBox m_msg_list;
+	CTime m_time;
+	CEdit m_chat_edit;
 };

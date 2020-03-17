@@ -63,6 +63,8 @@ CMy310ChatClientDlg::CMy310ChatClientDlg(CWnd* pParent /*=nullptr*/)
 void CMy310ChatClientDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_MSG_LIST1, m_msg_list);
+	DDX_Control(pDX, IDC_CHAT_EDIT3, m_chat_edit);
 }
 
 BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
@@ -107,6 +109,8 @@ BOOL CMy310ChatClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	GetDlgItem(IDC_POINT_EDIT2)->SetWindowTextW(_T("6000"));
+	GetDlgItem(IDC_IPADDR)->SetWindowTextW(_T("127.0.0.1"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -168,6 +172,8 @@ HCURSOR CMy310ChatClientDlg::OnQueryDragIcon()
 void CMy310ChatClientDlg::OnBnClickedSendMsgButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
+	TRACE("####OnBnClickedSendMsgButton1");
+
 }
 
 
@@ -175,15 +181,41 @@ void CMy310ChatClientDlg::OnBnClickedConnectionButton3()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	TRACE("####OnBnClickedConnectionButton3");
+	//获取端口和IP
 	CString strPoint, strIp;
 	GetDlgItem(IDC_POINT_EDIT2)->GetWindowTextW(strPoint);
 	GetDlgItem(IDC_IPADDR)->GetWindowTextW(strIp);
 	USES_CONVERSION;
 	LPCSTR zePoint = (LPCSTR)T2A(strPoint);
 	LPCSTR zeIp = (LPCSTR)T2A(strIp);
-	TRACE("strPoint=%s,strIp=%s", zePoint, zeIp);
+	TRACE("####strPoint=%s,strIp=%s", zePoint, zeIp);
+
+	int iPoint = _ttoi(strPoint);
+	//创建socket对象
+	m_clientSocket = new ClientSocket;
+
+	//创建socket
+	if (!m_clientSocket->Create()) {
+		TRACE("####m_clientSocket->Create  error  %d", GetLastError());
+		return;
+	}
+	else {
+		TRACE("####m_clientSocket->Create  Success");
+	}
 
 
+	
+	//连接
+	
+	if (m_clientSocket->Connect(strIp, iPoint) != SOCKET_ERROR)
+	{
+		TRACE("####m_clientSocket->Connect error %d", GetLastError());
+		return;
+	}
+	else {
+		TRACE("####m_clientSocket->Connect Success");
+		
+	}
 }
 
 

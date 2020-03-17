@@ -52,6 +52,7 @@ BOOL CMy310ChatSever1App::InitInstance()
 
 	CWinApp::InitInstance();
 
+	AfxSocketInit();
 
 	AfxEnableControlContainer();
 
