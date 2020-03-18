@@ -168,6 +168,15 @@ void CMy310ChatSever1Dlg::OnBnClickedCalcButton5()
 	// TODO: 在此添加控件通知处理程序代码
 }
 
+//显示信息格式:时间,信息(_昵称):消息
+CString CMy310ChatSever1Dlg::onShowMsg(CString strName, CString strMsg) {
+	CString strShow;
+	CTime tmpTime = CTime::GetCurrentTime();
+	strShow = tmpTime.Format("%X");
+	strShow += strName;
+	strShow += strMsg;
+	return strShow;
+}
 
 void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 {
@@ -210,13 +219,17 @@ void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 	}
 	
 	
-
-	CString str;
-	
+	/*
+	CString str;	
 	m_time = CTime::GetCurrentTime();
 	str = m_time.Format("%X");
 	str += _T("服务启动成功");
-	m_msg_list.AddString(str);
+	*/
+
+	CString strName = _T("");
+	CString strMsg = _T("服务启动成功");
+	CString strShow = onShowMsg(strName, strMsg);
+	m_msg_list.AddString(strShow);
 
 	m_msg_list.UpdateData(false);
 	
@@ -236,15 +249,21 @@ void CMy310ChatSever1Dlg::OnBnClickedChatSendButton4()
 	USES_CONVERSION;
 	char* msgBuff = T2A(strMsg);
 	//发送数据
-	m_chatSocket->Send(msgBuff, 200, 0);
+	m_chatSocket->Send(msgBuff, MAX_MSG_SIZE, 0);
 	//显示发送数据
 	//时间, 我,内容
+	/*
 	CString tmpstr;
 	m_time = CTime::GetCurrentTime();
 	tmpstr = m_time.Format("%X");
 	tmpstr += _T("服务端:");
 	tmpstr = tmpstr + strMsg;
-	m_msg_list.AddString(tmpstr);
+	*/
+	CString strName = _T("服务端:");
+	//CString strMsg = _T("服务启动成功");
+	CString strShow = onShowMsg(strName, strMsg);
+
+	m_msg_list.AddString(strShow);
 	m_msg_list.UpdateData(false);
 	GetDlgItem(IDC_CHAT_EDIT2)->SetWindowText(_T(""));
 }

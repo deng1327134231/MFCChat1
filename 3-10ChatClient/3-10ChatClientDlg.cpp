@@ -164,7 +164,15 @@ HCURSOR CMy310ChatClientDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
-
+//显示信息格式:时间,信息(_昵称):消息
+CString CMy310ChatClientDlg::onShowMsg(CString strName,CString strMsg) {
+	CString strShow;
+	CTime tmpTime = CTime::GetCurrentTime();
+	strShow = tmpTime.Format("%X");
+	strShow += strName;
+	strShow += strMsg;
+	return strShow;
+}
 
 
 
@@ -179,16 +187,22 @@ void CMy310ChatClientDlg::OnBnClickedSendMsgButton1()
 	USES_CONVERSION;
 	char* msgBuff = T2A(strMsg);
 	//发送数据
-	m_clientSocket->Send(msgBuff, 200, 0);
+	m_clientSocket->Send(msgBuff, MAX_MSG_SIZE, 0);
 	//显示发送数据
 	//时间, 我,内容
 	CString tmpstr;
+#if no
 	m_time = CTime::GetCurrentTime();
 	tmpstr = m_time.Format("%X");
 	tmpstr += _T("我:");
 	tmpstr = tmpstr + strMsg;
-	m_msg_list.AddString(tmpstr);
+#endif
+	CString strName = _T("我:");
+	CString strShow = onShowMsg(strName, strMsg);
+
+	m_msg_list.AddString(strShow);
 	m_msg_list.UpdateData(false);
+
 	GetDlgItem(IDC_CHAT_EDIT3)->SetWindowText(_T(""));
 	   
 }

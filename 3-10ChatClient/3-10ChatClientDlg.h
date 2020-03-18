@@ -5,6 +5,8 @@
 #pragma once
 #include "ClientSocket.h"
 
+#define MAX_MSG_SIZE 1024 //发送接收消息大小
+
 // CMy310ChatClientDlg 对话框
 class CMy310ChatClientDlg : public CDialogEx
 {
@@ -40,6 +42,7 @@ public:
 public:
 	ClientSocket* m_clientSocket;
 	CListBox m_msg_list;
-	CTime m_time;
+	//CTime m_time;
 	CEdit m_chat_edit;
+	afx_msg CString onShowMsg(CString strName, CString strMsg);
 };

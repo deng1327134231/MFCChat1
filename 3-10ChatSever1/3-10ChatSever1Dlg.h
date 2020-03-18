@@ -5,7 +5,7 @@
 #pragma once
 #include "ServerSocket.h"
 #include "ChatSocket.h"
-
+#define MAX_MSG_SIZE 1024 //发送接收消息大小
 
 // CMy310ChatSever1Dlg 对话框
 class CMy310ChatSever1Dlg : public CDialogEx
@@ -44,4 +44,5 @@ public:
 	CListBox m_msg_list;
 	
 	afx_msg void OnBnClickedChatSendButton4();
+	afx_msg CString onShowMsg(CString strName, CString strMsg);
 };
