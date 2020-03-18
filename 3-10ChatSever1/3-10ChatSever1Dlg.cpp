@@ -71,6 +71,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CALC_BUTTON5, &CMy310ChatSever1Dlg::OnBnClickedCalcButton5)
 	ON_BN_CLICKED(IDC_CONNECTION_BUTTON2, &CMy310ChatSever1Dlg::OnBnClickedConnectionButton2)
 	
+	ON_BN_CLICKED(IDC_CHAT_SEND_BUTTON4, &CMy310ChatSever1Dlg::OnBnClickedChatSendButton4)
 END_MESSAGE_MAP()
 
 
@@ -222,3 +223,28 @@ void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 }
 
 
+
+//服务端信息发送
+void CMy310ChatSever1Dlg::OnBnClickedChatSendButton4()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//打日志
+	TRACE("####server ::OnBnClickedChatSendButton4");
+	//	获取发送内容
+	CString strMsg;
+	GetDlgItem(IDC_CHAT_EDIT2)->GetWindowTextW(strMsg);
+	USES_CONVERSION;
+	char* msgBuff = T2A(strMsg);
+	//发送数据
+	m_chatSocket->Send(msgBuff, 200, 0);
+	//显示发送数据
+	//时间, 我,内容
+	CString tmpstr;
+	m_time = CTime::GetCurrentTime();
+	tmpstr = m_time.Format("%X");
+	tmpstr += _T("服务端:");
+	tmpstr = tmpstr + strMsg;
+	m_msg_list.AddString(tmpstr);
+	m_msg_list.UpdateData(false);
+	GetDlgItem(IDC_CHAT_EDIT2)->SetWindowText(_T(""));
+}

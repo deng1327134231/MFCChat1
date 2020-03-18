@@ -168,15 +168,33 @@ HCURSOR CMy310ChatClientDlg::OnQueryDragIcon()
 
 
 
-
+//信息发送
 void CMy310ChatClientDlg::OnBnClickedSendMsgButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	TRACE("####OnBnClickedSendMsgButton1");
-
+	//	获取发送内容
+	CString strMsg;
+	GetDlgItem(IDC_CHAT_EDIT3)->GetWindowTextW(strMsg);
+	USES_CONVERSION;
+	char* msgBuff = T2A(strMsg);
+	//发送数据
+	m_clientSocket->Send(msgBuff, 200, 0);
+	//显示发送数据
+	//时间, 我,内容
+	CString tmpstr;
+	m_time = CTime::GetCurrentTime();
+	tmpstr = m_time.Format("%X");
+	tmpstr += _T("我:");
+	tmpstr = tmpstr + strMsg;
+	m_msg_list.AddString(tmpstr);
+	m_msg_list.UpdateData(false);
+	GetDlgItem(IDC_CHAT_EDIT3)->SetWindowText(_T(""));
+	   
 }
 
 
+//实现网络连接
 void CMy310ChatClientDlg::OnBnClickedConnectionButton3()
 {
 	// TODO: 在此添加控件通知处理程序代码

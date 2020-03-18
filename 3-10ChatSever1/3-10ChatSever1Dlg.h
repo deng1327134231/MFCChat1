@@ -43,4 +43,5 @@ public:
 
 	CListBox m_msg_list;
 	
+	afx_msg void OnBnClickedChatSendButton4();
 };
