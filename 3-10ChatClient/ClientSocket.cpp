@@ -70,20 +70,20 @@ void ClientSocket::OnReceive(int nErrorCode)
 	dlg->m_msg_list.AddString(strShow);
 	dlg->m_msg_list.UpdateData(false);
 
-	if (((CButton*)dlg->GetDlgItem(IDC_AOTO_SEND_RADIO1))->GetCheck())
+	if (((CButton*)dlg->GetDlgItem(IDC_AOTO_SEND_CHECK1))->GetCheck())
 	{
 		CString strAutoSendMsg;
 		dlg->GetDlgItem(IDC_AOTO_SEND_EDIT1)->GetWindowTextW(strAutoSendMsg);
-		
+
 		CString strTutoName;
-		
+		dlg->GetDlgItem(IDC_NAME_EDIT1)->GetWindowTextW(strTutoName);
 		strMsg = strTutoName + _T("[自动回复;]") + strAutoSendMsg;
 		USES_CONVERSION;
-		char *sendBuf= T2A(strMsg);
+		char* sendBuf = T2A(strMsg);
 		dlg->m_clientSocket->Send(sendBuf, MAX_MSG_SIZE, 0);
 		//CString strName = _T("");
 		//CString strMsg = _T("服务器连接成功");
-		 strShow = dlg->onShowMsg(_T(""), strMsg);
+		strShow = dlg->onShowMsg(_T(""), strMsg);
 
 		dlg->m_msg_list.AddString(strShow);
 		dlg->m_msg_list.UpdateData(false);

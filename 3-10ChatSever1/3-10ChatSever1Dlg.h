@@ -45,4 +45,5 @@ public:
 	
 	afx_msg void OnBnClickedChatSendButton4();
 	afx_msg CString onShowMsg(CString strName, CString strMsg);
+	afx_msg void OnBnClickedClearButton1();
 };

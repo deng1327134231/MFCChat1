@@ -72,6 +72,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CONNECTION_BUTTON2, &CMy310ChatSever1Dlg::OnBnClickedConnectionButton2)
 	
 	ON_BN_CLICKED(IDC_CHAT_SEND_BUTTON4, &CMy310ChatSever1Dlg::OnBnClickedChatSendButton4)
+	ON_BN_CLICKED(IDC_CLEAR_BUTTON1, &CMy310ChatSever1Dlg::OnBnClickedClearButton1)
 END_MESSAGE_MAP()
 
 
@@ -266,4 +267,11 @@ void CMy310ChatSever1Dlg::OnBnClickedChatSendButton4()
 	m_msg_list.AddString(strShow);
 	m_msg_list.UpdateData(false);
 	GetDlgItem(IDC_CHAT_EDIT2)->SetWindowText(_T(""));
+}
+
+//清除历史记录
+void CMy310ChatSever1Dlg::OnBnClickedClearButton1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_msg_list.ResetContent();
 }

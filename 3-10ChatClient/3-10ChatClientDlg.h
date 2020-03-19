@@ -46,6 +46,7 @@ public:
 	CEdit m_chat_edit;
 	afx_msg CString onShowMsg(CString strName, CString strMsg);
 	afx_msg void OnBnClickedSevenameButton1();
-	afx_msg void OnBnClickedAotoSendRadio1();
+	
 	afx_msg void OnBnClickedClearchatButton4();
+	afx_msg void OnBnClickedAotoSendCheck1();
 };
