@@ -45,4 +45,5 @@ public:
 	//CTime m_time;
 	CEdit m_chat_edit;
 	afx_msg CString onShowMsg(CString strName, CString strMsg);
+	afx_msg void OnBnClickedSevenameButton1();
 };

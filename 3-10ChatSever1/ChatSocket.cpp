@@ -33,7 +33,7 @@ void ChatSocket::OnReceive(int nErrorCode)
 	msgStr += _T("客户端:");
 	msgStr = msgStr + msg;
 	*/
-	CString strName = _T("客户端:");
+	CString strName = _T("");
 	
 	CString strShow = dlg->onShowMsg(strName, strMsg);
 

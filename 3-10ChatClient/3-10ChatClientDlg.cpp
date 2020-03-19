@@ -74,6 +74,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
 	
 	ON_BN_CLICKED(IDC_SEND_MSG_BUTTON1, &CMy310ChatClientDlg::OnBnClickedSendMsgButton1)
 	ON_BN_CLICKED(IDC_CONNECTION_BUTTON3, &CMy310ChatClientDlg::OnBnClickedConnectionButton3)
+	ON_BN_CLICKED(IDC_SEVENAME_BUTTON1, &CMy310ChatClientDlg::OnBnClickedSevenameButton1)
 END_MESSAGE_MAP()
 
 
@@ -109,6 +110,31 @@ BOOL CMy310ChatClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+
+	//读取配置文件中的数据
+	//读取昵称
+	CString strName;
+	
+	CString strFileName;
+	WCHAR wzeName[MAX_PATH] = { 0 };
+	WCHAR Path[MAX_PATH] = { 0 };
+	GetCurrentDirectoryW(MAX_PATH, Path);
+	strFileName.Format(L"%ls//name.ini", Path);
+	TRACE("####strFileName=%ls", strFileName);
+	 DWORD dwNum= GetPrivateProfileStringW(L"client", L"name",0, wzeName,MAX_PATH, strFileName);
+	 if (dwNum > 0) {
+		 SetDlgItemText(IDC_NAME_EDIT1, wzeName);
+		 TRACE("####wzeName=%ls", wzeName);
+		 UpdateData(false);
+	 }
+	 else {
+		 WritePrivateProfileStringW(L"client", L"name", L"客户端:", strFileName);
+		 SetDlgItemText(IDC_NAME_EDIT1, L"客户端:");
+		 UpdateData(false);
+
+	 }
+	
+
 	GetDlgItem(IDC_POINT_EDIT2)->SetWindowTextW(_T("6000"));
 	GetDlgItem(IDC_IPADDR)->SetWindowTextW(_T("127.0.0.1"));
 
@@ -184,6 +210,9 @@ void CMy310ChatClientDlg::OnBnClickedSendMsgButton1()
 	//	获取发送内容
 	CString strMsg;
 	GetDlgItem(IDC_CHAT_EDIT3)->GetWindowTextW(strMsg);
+	CString strName;
+	GetDlgItem(IDC_NAME_EDIT1)->GetWindowTextW(strName);
+	strMsg = strName + _T(":") + strMsg;
 	USES_CONVERSION;
 	char* msgBuff = T2A(strMsg);
 	//发送数据
@@ -197,8 +226,8 @@ void CMy310ChatClientDlg::OnBnClickedSendMsgButton1()
 	tmpstr += _T("我:");
 	tmpstr = tmpstr + strMsg;
 #endif
-	CString strName = _T("我:");
-	CString strShow = onShowMsg(strName, strMsg);
+	//CString strName = _T("");
+	CString strShow = onShowMsg(_T(""), strMsg);
 
 	m_msg_list.AddString(strShow);
 	m_msg_list.UpdateData(false);
@@ -251,3 +280,50 @@ void CMy310ChatClientDlg::OnBnClickedConnectionButton3()
 }
 
 
+
+//保存昵称
+void CMy310ChatClientDlg::OnBnClickedSevenameButton1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//获取控件昵称
+	TRACE("####CMy310ChatClientDlg::OnBnClickedSevenameButton1");
+	CString strName;
+	GetDlgItem(IDC_NAME_EDIT1)->GetWindowTextW(strName);
+	if (strName.GetLength()<=0) {
+		MessageBox(L"昵称不能为空!");
+		CString strName;
+
+		CString strFileName;
+		WCHAR wzeName[MAX_PATH] = { 0 };
+		WCHAR Path[MAX_PATH] = { 0 };
+		GetCurrentDirectoryW(MAX_PATH, Path);
+		strFileName.Format(L"%ls//name.ini", Path);
+		TRACE("####strFileName=%ls", strFileName);
+		DWORD dwNum = GetPrivateProfileStringW(L"client", L"name", 0, wzeName, MAX_PATH, strFileName);
+		if (dwNum > 0) {
+			SetDlgItemText(IDC_NAME_EDIT1, wzeName);
+			TRACE("####wzeName=%ls", wzeName);
+			UpdateData(false);
+		}
+		
+		return;
+	}
+	
+	
+	if (IDOK == AfxMessageBox(L"确定保存", MB_OKCANCEL))
+	{
+		//保存昵称
+			CString strFileName;
+			WCHAR Path[MAX_PATH] = { 0 };
+			GetCurrentDirectoryW(MAX_PATH, Path);
+			strFileName.Format(L"%ls//name.ini", Path);
+			TRACE("####strFileName=%ls", strFileName);
+			
+			WritePrivateProfileStringW(L"client", L"name", strName, strFileName);
+
+
+	}
+
+
+	
+}
