@@ -75,6 +75,8 @@ BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_SEND_MSG_BUTTON1, &CMy310ChatClientDlg::OnBnClickedSendMsgButton1)
 	ON_BN_CLICKED(IDC_CONNECTION_BUTTON3, &CMy310ChatClientDlg::OnBnClickedConnectionButton3)
 	ON_BN_CLICKED(IDC_SEVENAME_BUTTON1, &CMy310ChatClientDlg::OnBnClickedSevenameButton1)
+	ON_BN_CLICKED(IDC_AOTO_SEND_RADIO1, &CMy310ChatClientDlg::OnBnClickedAotoSendRadio1)
+	ON_BN_CLICKED(IDC_CLEARCHAT_BUTTON4, &CMy310ChatClientDlg::OnBnClickedClearchatButton4)
 END_MESSAGE_MAP()
 
 
@@ -326,4 +328,25 @@ void CMy310ChatClientDlg::OnBnClickedSevenameButton1()
 
 
 	
+}
+
+
+void CMy310ChatClientDlg::OnBnClickedAotoSendRadio1()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	if (((CButton*)GetDlgItem(IDC_AOTO_SEND_RADIO1))->GetCheck()) {
+		((CButton*)GetDlgItem(IDC_AOTO_SEND_RADIO1))->SetCheck(false);
+	}
+	else {
+		((CButton*)GetDlgItem(IDC_AOTO_SEND_RADIO1))->SetCheck(true);
+	}
+}
+
+
+void CMy310ChatClientDlg::OnBnClickedClearchatButton4()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	m_msg_list.ResetContent();
+	m_msg_list.UpdateData(false);
 }
