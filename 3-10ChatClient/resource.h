@@ -7,6 +7,7 @@
 #define IDS_ABOUTBOX                    101
 #define IDD_MY310CHATCLIENT_DIALOG      102
 #define IDR_MAINFRAME                   128
+#define IDB_BITMAP1                     130
 #define IDC_SEND_MSG_BUTTON1            1000
 #define IDC_DISCONNECT_BUTTON2          1001
 #define IDC_CONNECTION_BUTTON3          1002
@@ -27,7 +28,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        130
+#define _APS_NEXT_RESOURCE_VALUE        131
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101

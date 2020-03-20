@@ -211,7 +211,13 @@
     <None Include="res\My310ChatSever1.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\3-10ChatClient\res\bitmap1.bmp" />
+    <Image Include="..\3-10chatclient\res\bitmap2.bmp" />
+    <Image Include="..\3-10chatclient\res\bitmap3.bmp" />
+    <Image Include="..\3-10chatclient\res\bitmap4.bmp" />
+    <Image Include="..\3-10chatclient\res\bitmap5.bmp" />
     <Image Include="res\3-10ChatSever1.ico" />
+    <Image Include="res\bitmap2.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

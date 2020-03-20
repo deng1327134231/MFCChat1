@@ -204,6 +204,24 @@ void CMy310ChatClientDlg::OnPaint()
 	}
 	else
 	{
+		CPaintDC dc(this);
+
+		CRect rect;
+		GetClientRect(&rect);
+		TRACE("####rect.width=%d  rect.height=%d ", rect.Width(), rect.Height());
+
+		CDC tmpCdc;
+		tmpCdc.CreateCompatibleDC(&tmpCdc);
+
+		CBitmap bmpBrockBmp;
+		bmpBrockBmp.LoadBitmapW(IDB_BITMAP1);
+		BITMAP bmp;
+		bmpBrockBmp.GetBitmap(&bmp);
+		CBitmap* oldBitmap = tmpCdc.SelectObject(&bmpBrockBmp);
+
+		dc.StretchBlt(0, 0, rect.Width(), rect.Height(), &tmpCdc, 0, 0, bmp.bmWidth, bmp.bmHeight, SRCCOPY);
+
+
 		CDialogEx::OnPaint();
 	}
 }

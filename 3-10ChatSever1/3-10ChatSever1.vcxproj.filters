@@ -71,5 +71,23 @@
     <Image Include="res\3-10ChatSever1.ico">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="..\3-10ChatClient\res\bitmap1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\3-10chatclient\res\bitmap2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\3-10chatclient\res\bitmap3.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\3-10chatclient\res\bitmap4.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\3-10chatclient\res\bitmap5.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bitmap2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>
