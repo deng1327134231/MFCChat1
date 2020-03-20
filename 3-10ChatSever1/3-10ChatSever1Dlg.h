@@ -47,4 +47,6 @@ public:
 	afx_msg CString onShowMsg(CString strName, CString strMsg);
 	afx_msg void OnBnClickedClearButton1();
 	afx_msg void OnBnClickedDisconectButton3();
+	CComboBox m_wordColorCombo;
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

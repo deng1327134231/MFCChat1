@@ -62,6 +62,7 @@ void CMy310ChatSever1Dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_MSG_LIST1, m_msg_list);
+	DDX_Control(pDX, IDC_COLOR_COMBO1, m_wordColorCombo);
 }
 
 BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
@@ -74,6 +75,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CHAT_SEND_BUTTON4, &CMy310ChatSever1Dlg::OnBnClickedChatSendButton4)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON1, &CMy310ChatSever1Dlg::OnBnClickedClearButton1)
 	ON_BN_CLICKED(IDC_DISCONECT_BUTTON3, &CMy310ChatSever1Dlg::OnBnClickedDisconectButton3)
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -116,7 +118,17 @@ BOOL CMy310ChatSever1Dlg::OnInitDialog()
 	GetDlgItem(IDC_CHAT_SEND_BUTTON4)->EnableWindow(false);
 	GetDlgItem(IDC_POINT_EDIT3)->EnableWindow(true);
 
+	//comboBox控件初始化
+	m_wordColorCombo.AddString(_T("黑色"));
+	m_wordColorCombo.AddString(_T("紅色"));
+	m_wordColorCombo.AddString(_T("綠色"));
+	m_wordColorCombo.AddString(_T("藍色"));
 
+	m_wordColorCombo.SetCurSel(0);
+
+	SetDlgItemTextW(IDC_COLOR_COMBO1, _T("黑色"));
+
+	//设置默认端口
 	GetDlgItem(IDC_POINT_EDIT3)->SetWindowText(_T("6000"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -321,4 +333,38 @@ void CMy310ChatSever1Dlg::OnBnClickedDisconectButton3()
 
 	m_msg_list.AddString(strShow);
 	m_msg_list.UpdateData(false);
+}
+
+
+HBRUSH CMy310ChatSever1Dlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  在此更改 DC 的任何特性
+
+	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+	TRACE("####server OnCtlColor");
+	CString strColor;
+	m_wordColorCombo.GetWindowTextW(strColor);
+	if (IDC_MSG_LIST1 == pWnd->GetDlgCtrlID() || IDC_CHAT_EDIT2 == pWnd->GetDlgCtrlID())
+	{
+		if (strColor == L"黑色") 
+		{
+			pDC->SetTextColor(RGB(0, 0, 0));
+		}
+		else if (strColor == L"紅色")
+		{
+			pDC->SetTextColor(RGB(255, 0, 0));
+		}
+		else if (strColor == L"綠色") 
+		{
+			pDC->SetTextColor(RGB(0, 255, 0));
+		}
+		else if (strColor == L"藍色") 
+		{
+			pDC->SetTextColor(RGB(0, 0, 255));
+		}
+
+	}
+	return hbr;
 }

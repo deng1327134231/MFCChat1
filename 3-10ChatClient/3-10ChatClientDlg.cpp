@@ -65,7 +65,10 @@ void CMy310ChatClientDlg::DoDataExchange(CDataExchange* pDX)
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_MSG_LIST1, m_msg_list);
 	DDX_Control(pDX, IDC_CHAT_EDIT3, m_chat_edit);
+	DDX_Control(pDX, IDC_COLOR_COMBO1, m_wordColorCombo);
 }
+
+
 
 BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
@@ -79,6 +82,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CLEARCHAT_BUTTON4, &CMy310ChatClientDlg::OnBnClickedClearchatButton4)
 	ON_BN_CLICKED(IDC_AOTO_SEND_CHECK1, &CMy310ChatClientDlg::OnBnClickedAotoSendCheck1)
 	ON_BN_CLICKED(IDC_DISCONNECT_BUTTON2, &CMy310ChatClientDlg::OnBnClickedDisconnectButton2)
+	ON_WM_CTLCOLOR()
 END_MESSAGE_MAP()
 
 
@@ -122,10 +126,20 @@ BOOL CMy310ChatClientDlg::OnInitDialog()
 	GetDlgItem(IDC_POINT_EDIT2)->EnableWindow(true);
 	GetDlgItem(IDC_IPADDR)->EnableWindow(true);
 
+	//comboBox控件初始化
+	m_wordColorCombo.AddString(_T("黑色"));
+	m_wordColorCombo.AddString(_T("紅色"));
+	m_wordColorCombo.AddString(_T("綠色"));
+	m_wordColorCombo.AddString(_T("藍色"));
+
+	m_wordColorCombo.SetCurSel(0);
+
+	SetDlgItemTextW(IDC_COLOR_COMBO1, _T("黑色"));
+
 	//读取配置文件中的数据
 	//读取昵称
+
 	CString strName;
-	
 	CString strFileName;
 	WCHAR wzeName[MAX_PATH] = { 0 };
 	WCHAR Path[MAX_PATH] = { 0 };
@@ -397,4 +411,59 @@ void CMy310ChatClientDlg::OnBnClickedDisconnectButton2()
 	m_msg_list.AddString(strShow);
 	m_msg_list.UpdateData(false);
 
+}
+
+
+HBRUSH CMy310ChatClientDlg::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
+{
+	HBRUSH hbr = CDialogEx::OnCtlColor(pDC, pWnd, nCtlColor);
+
+	// TODO:  在此更改 DC 的任何特性
+
+	// TODO:  如果默认的不是所需画笔，则返回另一个画笔
+
+	TRACE("####client OnCtlColor");
+	CString strColor;
+	m_wordColorCombo.GetWindowTextW(strColor);
+#if 0
+	if (strColor == L"黑色") {
+		if (IDC_MSG_LIST1 ==pWnd->GetDlgCtrlID() || IDC_CHAT_EDIT3 ==pWnd-> GetDlgCtrlID()) {
+			pDC->SetTextColor(RGB(0, 0, 0));
+		}
+	}
+	if(strColor == L"紅色") {
+		if (IDC_MSG_LIST1 == pWnd->GetDlgCtrlID() || IDC_CHAT_EDIT3 == pWnd->GetDlgCtrlID()) {
+			pDC->SetTextColor(RGB(255, 0, 0));
+		}
+	}
+	if (strColor == L"綠色") {
+		if (IDC_MSG_LIST1 == pWnd->GetDlgCtrlID() || IDC_CHAT_EDIT3 == pWnd->GetDlgCtrlID()) {
+			pDC->SetTextColor(RGB(0,255, 0));
+		}
+	}
+	if (strColor == L"藍色") {
+		if (IDC_MSG_LIST1 == pWnd->GetDlgCtrlID() || IDC_CHAT_EDIT3 == pWnd->GetDlgCtrlID()) {
+			pDC->SetTextColor(RGB(0, 0,255));
+		}
+	}
+#endif
+
+	if (IDC_MSG_LIST1 == pWnd->GetDlgCtrlID() || IDC_CHAT_EDIT3 == pWnd->GetDlgCtrlID())
+	{
+		if (strColor == L"黑色") {
+			pDC->SetTextColor(RGB(0, 0, 0));
+		}
+		else if (strColor == L"紅色") {
+			pDC->SetTextColor(RGB(255, 0, 0));
+		}
+		else if (strColor == L"綠色") {
+			pDC->SetTextColor(RGB(0, 255, 0));
+		}
+		else if (strColor == L"藍色") {
+			pDC->SetTextColor(RGB(0, 0, 255));
+		}
+		
+	}
+
+	return hbr;
 }
