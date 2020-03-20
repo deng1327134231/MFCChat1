@@ -73,6 +73,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatSever1Dlg, CDialogEx)
 	
 	ON_BN_CLICKED(IDC_CHAT_SEND_BUTTON4, &CMy310ChatSever1Dlg::OnBnClickedChatSendButton4)
 	ON_BN_CLICKED(IDC_CLEAR_BUTTON1, &CMy310ChatSever1Dlg::OnBnClickedClearButton1)
+	ON_BN_CLICKED(IDC_DISCONECT_BUTTON3, &CMy310ChatSever1Dlg::OnBnClickedDisconectButton3)
 END_MESSAGE_MAP()
 
 
@@ -108,6 +109,14 @@ BOOL CMy310ChatSever1Dlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+
+	//控制有关联的控件
+	GetDlgItem(IDC_CONNECTION_BUTTON2)->EnableWindow(true);
+	GetDlgItem(IDC_DISCONECT_BUTTON3)->EnableWindow(false);
+	GetDlgItem(IDC_CHAT_SEND_BUTTON4)->EnableWindow(false);
+	GetDlgItem(IDC_POINT_EDIT3)->EnableWindow(true);
+
+
 	GetDlgItem(IDC_POINT_EDIT3)->SetWindowText(_T("6000"));
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -184,6 +193,12 @@ void CMy310ChatSever1Dlg::OnBnClickedConnectionButton2()
 	// TODO: 在此添加控件通知处理程序代码
 	
 	TRACE("####ClickedConnectionButton2");
+	//控制相关控件
+	GetDlgItem(IDC_CONNECTION_BUTTON2)->EnableWindow(false);
+	GetDlgItem(IDC_DISCONECT_BUTTON3)->EnableWindow(TRUE);
+	GetDlgItem(IDC_CHAT_SEND_BUTTON4)->EnableWindow(true);
+	GetDlgItem(IDC_POINT_EDIT3)->EnableWindow(false);
+
 	//获取端口
 	CString strPoint;
 	GetDlgItem(IDC_POINT_EDIT3)->GetWindowTextW(strPoint);
@@ -274,4 +289,36 @@ void CMy310ChatSever1Dlg::OnBnClickedClearButton1()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	m_msg_list.ResetContent();
+}
+
+//网络断开
+void CMy310ChatSever1Dlg::OnBnClickedDisconectButton3()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	//控制相关控件
+	TRACE("####Serverce OnBnClickedDisconectButton3");
+	//控制有关联的控件
+	GetDlgItem(IDC_CONNECTION_BUTTON2)->EnableWindow(true);
+	GetDlgItem(IDC_DISCONECT_BUTTON3)->EnableWindow(false);
+	GetDlgItem(IDC_CHAT_SEND_BUTTON4)->EnableWindow(false);
+	GetDlgItem(IDC_POINT_EDIT3)->EnableWindow(true);
+
+	//关闭服务
+	m_serverSocket->Close();
+	if (m_serverSocket != NULL) {
+		delete m_serverSocket;
+		m_serverSocket = NULL;
+	}
+
+	if (m_chatSocket != NULL) {
+		delete m_chatSocket;
+		m_chatSocket = NULL;
+	}
+	//关闭服务通知
+	CString strName = _T("");
+	CString strMsg = _T("服务器关闭");
+	CString strShow = onShowMsg(_T(""), strMsg);
+
+	m_msg_list.AddString(strShow);
+	m_msg_list.UpdateData(false);
 }

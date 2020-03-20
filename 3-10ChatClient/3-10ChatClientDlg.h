@@ -49,4 +49,5 @@ public:
 	
 	afx_msg void OnBnClickedClearchatButton4();
 	afx_msg void OnBnClickedAotoSendCheck1();
+	afx_msg void OnBnClickedDisconnectButton2();
 };

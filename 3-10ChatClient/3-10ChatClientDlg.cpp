@@ -78,6 +78,7 @@ BEGIN_MESSAGE_MAP(CMy310ChatClientDlg, CDialogEx)
 	
 	ON_BN_CLICKED(IDC_CLEARCHAT_BUTTON4, &CMy310ChatClientDlg::OnBnClickedClearchatButton4)
 	ON_BN_CLICKED(IDC_AOTO_SEND_CHECK1, &CMy310ChatClientDlg::OnBnClickedAotoSendCheck1)
+	ON_BN_CLICKED(IDC_DISCONNECT_BUTTON2, &CMy310ChatClientDlg::OnBnClickedDisconnectButton2)
 END_MESSAGE_MAP()
 
 
@@ -113,6 +114,13 @@ BOOL CMy310ChatClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
 	// TODO: 在此添加额外的初始化代码
+	//初始化控件
+	GetDlgItem(IDC_CONNECTION_BUTTON3)->EnableWindow(TRUE);
+	GetDlgItem(IDC_DISCONNECT_BUTTON2)->EnableWindow(false);
+	GetDlgItem(IDC_SEND_MSG_BUTTON1)->EnableWindow(false);
+	GetDlgItem(IDC_AOTO_SEND_CHECK1)->EnableWindow(false);
+	GetDlgItem(IDC_POINT_EDIT2)->EnableWindow(true);
+	GetDlgItem(IDC_IPADDR)->EnableWindow(true);
 
 	//读取配置文件中的数据
 	//读取昵称
@@ -245,6 +253,14 @@ void CMy310ChatClientDlg::OnBnClickedConnectionButton3()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	TRACE("####OnBnClickedConnectionButton3");
+	//相关控件的控制
+	GetDlgItem(IDC_CONNECTION_BUTTON3)->EnableWindow(false);
+	GetDlgItem(IDC_DISCONNECT_BUTTON2)->EnableWindow(true);
+	GetDlgItem(IDC_SEND_MSG_BUTTON1)->EnableWindow(true);
+	GetDlgItem(IDC_AOTO_SEND_CHECK1)->EnableWindow(true);
+	GetDlgItem(IDC_POINT_EDIT2)->EnableWindow(false);
+	GetDlgItem(IDC_IPADDR)->EnableWindow(false);
+	
 	//获取端口和IP
 	CString strPoint, strIp;
 	GetDlgItem(IDC_POINT_EDIT2)->GetWindowTextW(strPoint);
@@ -350,5 +366,35 @@ void CMy310ChatClientDlg::OnBnClickedAotoSendCheck1()
 	else {
 		((CButton*)GetDlgItem(IDC_AOTO_SEND_CHECK1))->SetCheck(true);
 	}
+
+}
+
+
+void CMy310ChatClientDlg::OnBnClickedDisconnectButton2()
+{
+	// TODO: 在此添加控件通知处理程序代码
+
+	TRACE("####client OnBnClickedDisconnectButton2");
+	//控制有关联的控件
+	GetDlgItem(IDC_CONNECTION_BUTTON3)->EnableWindow(TRUE);
+	GetDlgItem(IDC_DISCONNECT_BUTTON2)->EnableWindow(false);
+	GetDlgItem(IDC_SEND_MSG_BUTTON1)->EnableWindow(false);
+	GetDlgItem(IDC_AOTO_SEND_CHECK1)->EnableWindow(false);
+	GetDlgItem(IDC_POINT_EDIT2)->EnableWindow(true);
+	GetDlgItem(IDC_IPADDR)->EnableWindow(true);
+	
+	//断开网络
+	m_clientSocket->Close();
+	if (m_clientSocket != NULL) {
+		delete m_clientSocket;
+		m_clientSocket = NULL;
+	}
+	//通知网络断开信息
+	CString strName = _T("");
+	CString strMsg = _T("断开网络连接");
+	CString strShow = onShowMsg(_T(""), strMsg);
+
+	m_msg_list.AddString(strShow);
+	m_msg_list.UpdateData(false);
 
 }
